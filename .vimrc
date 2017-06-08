@@ -49,6 +49,8 @@ filetype off
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'brooth/far.vim'
+Plug 'yuttie/comfortable-motion.vim'
 Plug 'AndrewRadev/sideways.vim'
 Plug 'tpope/vim-surround'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -230,17 +232,6 @@ imap lambda λ
 
 " }
 
-" -- JSDOC {
-" ========
-
-nnoremap <Leader>d :JsDoc<Enter>
-
-let g:jsdoc_enable_es6=1
-let g:jsdoc_allow_input_prompt=1
-let g:jsdoc_input_description=1
-
-" }
-
 " -- Ultisnips {
 " ============
 
@@ -316,4 +307,26 @@ xmap ia <Plug>SidewaysArgumentTextobjI
 
 " AutComplete
 let g:deoplete#enable_at_startup = 1
+" }
+"
+
+" scroll
+
+nnoremap <silent> <C-d> :call comfortable_motion#flick(100)<CR>
+nnoremap <silent> <C-u> :call comfortable_motion#flick(-100)<CR>
+
+let g:comfortable_motion_friction = 80.0
+let g:comfortable_motion_air_drag = 2.0
+
+" }
+
+" Far.vim {
+nmap <Leader>q <Esc>:Far <C-r><C-w> 
+nmap <Leader>d <Esc>:Fardo<Enter>:q!<Enter>
+
+" }
+"
+" utils {
+iabbrev fn function
+autocmd BufWritePre *.js :normal gg=G
 " }

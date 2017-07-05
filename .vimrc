@@ -13,6 +13,11 @@ let mapleader=","
 " easymotion trigger with only 1 leader
 map <Leader> <Plug>(easymotion-prefix)
 
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
+
 " select pasted text
 nnoremap gp `[v`]
 
@@ -25,6 +30,7 @@ if has("unix")
   endif
 endif
 
+nnoremap <c-s> :w<Enter>
 nnoremap qw :wq<Enter>
 noremap qe <C-z>
 nnoremap <Leader>s :%s/\<<C-r><C-w>\>/
@@ -49,6 +55,14 @@ filetype off
 
 call plug#begin('~/.vim/plugged')
 
+
+Plug 'drewtempelmeyer/palenight.vim'
+Plug 'ajmwagar/vim-deus'
+Plug 'altercation/vim-colors-solarized'
+Plug 'ervandew/supertab'
+Plug 'farfanoide/inflector.vim'
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'w0rp/ale'
 Plug 'brooth/far.vim'
 Plug 'yuttie/comfortable-motion.vim'
 Plug 'AndrewRadev/sideways.vim'
@@ -61,7 +75,6 @@ Plug 'liuchengxu/space-vim-dark'
 Plug 'jiangmiao/auto-pairs'
 Plug 'joshdick/onedark.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'Raimondi/delimitMate'
 Plug 'SirVer/ultisnips'
 Plug 'mhinz/vim-startify'
 Plug 'GuillaumeBadi/vim-snippets'
@@ -73,7 +86,7 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'heavenshell/vim-jsdoc'
 
 call plug#end()
-filetype plugin indent on
+filetype plugin on
 
 " }
 
@@ -81,8 +94,6 @@ filetype plugin indent on
 " -- Aliases {
 " ==========
 
-command Sp set paste
-command Np set nopaste
 map <c-p> <Esc>:FZF<Enter>
 
 " }
@@ -101,7 +112,8 @@ syntax on
 
 " The chosen one
 set background=dark
-colorscheme onedark
+colorscheme palenight
+
 hi htmlArg gui=italic
 hi Comment gui=italic
 hi Type    gui=italic
@@ -183,7 +195,7 @@ set smartcase
 
 " Never use Ex useless mode
 nnoremap Q <ESC>
-nmap ; :
+nmap <leader>w :w
 
 " Show blank characters
 set listchars=tab:>-,trail:·,nbsp:%
@@ -241,6 +253,9 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " }
 
+" -- Inflector {
+let g:inflector_mapping = 'gI'
+"  }
 
 " -- Vim JS {
 " ==========
@@ -328,5 +343,21 @@ nmap <Leader>d <Esc>:Fardo<Enter>:q!<Enter>
 "
 " utils {
 iabbrev fn function
-autocmd BufWritePre *.js :normal gg=G
 " }
+
+" Lint {
+
+let g:ale_linters = {
+\   'javascript.jsx': ['eslint'],
+\}
+
+let g:ale_lint_on_text_changed = 1
+let g:ale_sign_error = '😡'
+let g:ale_sign_warning = '🙄'
+let g:ale_javascript_eslint_executable = '/Users/guillaume/.nvm/versions/node/v7.6.0/bin/eslint'
+let g:ale_javascript_eslint_use_global = 1
+nmap <c-e> <Esc>:ALENext<Enter>
+" }
+
+set exrc
+set secure
